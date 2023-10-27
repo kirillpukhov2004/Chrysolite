@@ -14,6 +14,7 @@ struct EventsTableViewHeaderModel: Hashable {
 }
 
 struct EventsTableViewCellModel: Hashable {
+    let date: Date
     let eventIdentifier: String
     let title: String
     let calendarColor: UIColor

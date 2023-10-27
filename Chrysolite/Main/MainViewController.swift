@@ -4,11 +4,9 @@ import Combine
 import OSLog
 
 class MainViewController: UIViewController {
-    typealias EventsTableViewDiffableDataSourceType = UITableViewDiffableDataSource<EventsTableViewHeaderModel, EventsTableViewCellModel>
+    let viewModel: MainViewModelProtocol
 
-    private let viewModel: MainViewModelProtocol
-
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
 
     var calendarBarButtonItem: UIBarButtonItem!
     var plusBarButtonItem: UIBarButtonItem!
@@ -16,7 +14,8 @@ class MainViewController: UIViewController {
     var calendarView: CalendarView!
     
     var eventsTableView: UITableView!
-    private var eventsTableViewDiffableDataSource: EventsTableViewDiffableDataSourceType!
+    
+    var isUpdating: Bool = false
     
     init(viewModel: MainViewModelProtocol) {
         self.viewModel = viewModel
@@ -40,12 +39,13 @@ class MainViewController: UIViewController {
         plusBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonPressed))
         navigationItem.rightBarButtonItems = [plusBarButtonItem]
         
-        calendarView = CalendarView()
+        calendarView = CalendarView(selectedDate: viewModel.selectedDate)
         view.addSubview(calendarView)
 
         eventsTableView = UITableView(frame: .zero, style: .plain)
         eventsTableView.register(EventsTableViewCell.self)
-        eventsTableView.register(EventsTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: EventsTableViewHeaderView.identifier)
+        eventsTableView.register(EventsTableViewHeaderView.self)
+        eventsTableView.dataSource = self
         eventsTableView.delegate = self
         eventsTableView.showsVerticalScrollIndicator = false
         eventsTableView.separatorStyle = .none
@@ -72,35 +72,26 @@ class MainViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        eventsTableViewDiffableDataSource = .init(
-            tableView: eventsTableView,
-            cellProvider: { tableView, indexPath, item in
-                let cell = tableView.dequeueReusableCell(EventsTableViewCell.self, for: indexPath)
-                cell.configure(with: item)
+        viewModel.selectedDatePublisher
+            .sink { [weak self] date in
+                guard let self = self else { return }
                 
-                return cell
-            }
-        )
-        
-        viewModel.eventsTableViewDataSubject
-            .sink { [weak self] data in
-                guard let self = self else { fatalError() }
-                
-                var snapshot = NSDiffableDataSourceSnapshot<EventsTableViewHeaderModel, EventsTableViewCellModel>()
-                
-                snapshot.appendSections(data.map { $0.section })
-                data.forEach { section, items in
-                    snapshot.appendItems(items, toSection: section)
-                }
-                
-                eventsTableViewDiffableDataSource.apply(snapshot, animatingDifferences: false)
+                calendarView.selectedDate = date
             }
             .store(in: &cancellables)
         
-        let sections = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers
-        guard let sectionIndex = sections.firstIndex(where: { Calendar.current.isDate($0.date, inSameDayAs: Date()) }) else { return }
-        
-        eventsTableView.scrollToRow(at: IndexPath(row: NSNotFound, section: sectionIndex), at: .top, animated: true)
+        viewModel.eventsTableViewDataUpdatedSubject
+            .sink { [weak self] in
+                guard let self = self else { return }
+                
+                isUpdating = true
+                eventsTableView.reloadData()
+                isUpdating = false
+                // Scroll to selectedDate
+                let indexPath = viewModel.newIndexPath()
+                eventsTableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: Selector Functions
@@ -114,43 +105,80 @@ class MainViewController: UIViewController {
     }
 }
 
+extension MainViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if tableView === eventsTableView {
+            return viewModel.numberOfSectionsInEventsTableView
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView === eventsTableView {
+            return viewModel.numberOfRowsInEventsTableView(for: section)
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(EventsTableViewCell.self, for: indexPath)
+        
+        let cellModel = viewModel.eventsTableViewCellModel(for: indexPath)
+        cell.configure(with: cellModel)
+        
+        return cell
+    }
+}
+
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(EventsTableViewHeaderView.self)
         
-        let section = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers[section]
-        header.configure(with: section)
+        let headerModel = viewModel.eventsTableViewHeaderModel(for: section)
+        header.configure(with: headerModel)
         
         return header
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let eventIdentifier = eventsTableViewDiffableDataSource.itemIdentifier(for: indexPath)?.eventIdentifier else { return }
-        
-        viewModel.eventSelectedAction(eventIdentifier: eventIdentifier)
-        
-        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.eventTableViewCellSelectedAction(indexPath)
     }
     
     func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-        guard let section = eventsTableView.indexesOfVisibleSections.first else { return }
+        guard let section = tableView.indexesOfVisibleSections.first else { return }
         
-        let date = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers[section].date
-        
-        calendarView.selectedDate = date
-        
-//        updateRanges(for: date)
-    }
-    
-    private func updateRanges(for date: Date) {
-        guard let firstCachedDate = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers.first?.date,
-              let lastCachedDate = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers.last?.date
-        else { return }
-        
-        if Calendar.current.isDate(firstCachedDate, equalTo: date, toGranularity: .month) {
-            viewModel.updateRanges(for: date)
-        } else if Calendar.current.isDate(lastCachedDate, equalTo: date, toGranularity: .month) {
-            viewModel.updateRanges(for: date)
+        if !isUpdating {
+            viewModel.eventTableViewTopHeaderDidChanged(to: section)
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let screenHeight = scrollView.frame.size.height
+ 
+        
+        if offsetY <= 0 {
+            viewModel.eventTableviewDidScrollToTop()
+        } else if offsetY > contentHeight - screenHeight {
+            viewModel.eventTableViewDidScrollToBottom()
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        if tableView.numberOfSections == section + 1 {
+//            guard let firstDate = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers.first?.date else { return }
+//            guard let lastDate = eventsTableViewDiffableDataSource.snapshot().sectionIdentifiers.last?.date else { return }
+//            
+//            let date = calendarView.selectedDate!
+//            
+//            if Calendar.current.isDate(date, equalTo: firstDate, toGranularity: .month), Calendar.current.isDate(date, equalTo: firstDate, toGranularity: .year) {
+//                viewModel.updateRanges(for: Calendar.current.date(byAdding: .year, value: -1, to: date)!)
+//            } else if Calendar.current.isDate(date, equalTo: lastDate, toGranularity: .month), Calendar.current.isDate(date, equalTo: lastDate, toGranularity: .year) {
+//                viewModel.updateRanges(for: Calendar.current.date(byAdding: .year, value: 1, to: date)!)
+//            }
+//        }
+//    }
 }

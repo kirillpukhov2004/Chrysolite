@@ -51,10 +51,10 @@ class CalendarView: UIView {
     
     private var dates: [Date]!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(selectedDate: Date) {
+        super.init(frame: .zero)
         
-        selectedDate = Date()
+        self.selectedDate = selectedDate
         
         monthLabel = UILabel()
         monthLabel.font = UIFont.systemFont(ofSize: 27, weight: .medium, design: .rounded)
