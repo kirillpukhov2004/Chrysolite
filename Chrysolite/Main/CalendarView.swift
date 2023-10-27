@@ -1,8 +1,8 @@
 import UIKit
 
-struct CalendarCollectionViewItem {
-    let date: String
-    let font: UIFont
+struct CalendarCollectionViewCellModel {
+    let labelText: String
+    let isLabelEnabled: Bool
 }
 
 class CalendarCollectionViewCell: UICollectionViewCell, IdentifiableView {
@@ -14,6 +14,7 @@ class CalendarCollectionViewCell: UICollectionViewCell, IdentifiableView {
         super.init(frame: frame)
         
         label = UILabel(frame: bounds)
+        label.font = .systemFont(ofSize: 15, weight: .regular, design: .rounded)
         label.textAlignment = .center
         label.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
         contentView.addSubview(label)
@@ -23,82 +24,73 @@ class CalendarCollectionViewCell: UICollectionViewCell, IdentifiableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with item: CalendarCollectionViewItem) {
-        label.text = item.date
-        label.font = item.font
+    func configure(with model: CalendarCollectionViewCellModel) {
+        label.text = model.labelText
+        label.isEnabled = model.isLabelEnabled
     }
 }
 
 class CalendarView: UIView {
-    var monthLabel: UILabel!
-    
-    var yearLabel: UILabel!
-    
     var collectionView: UICollectionView!
     
-    var selectedDateIndicatorView: UIView!
+    var backgroundView: UIView!
     
-    var selectedDate: Date! {
+    var indicatorView: UIView!
+    
+    var selectedDate = Date() {
         didSet {
             if !Calendar.current.isDate(selectedDate, equalTo: oldValue, toGranularity: .month) {
-                updateLabels()
-                updateDates()
+                dates = getDates()
+                collectionView.reloadData()
             }
             
-            updateSelectedDateIndicator()
+            updateIndicator()
         }
     }
     
-    private var dates: [Date]!
+    private var dates = [Date]()
     
-    init(selectedDate: Date) {
-        super.init(frame: .zero)
-        
-        self.selectedDate = selectedDate
-        
-        monthLabel = UILabel()
-        monthLabel.font = UIFont.systemFont(ofSize: 27, weight: .medium, design: .rounded)
-        addSubview(monthLabel)
-        
-        yearLabel = UILabel()
-        yearLabel.font = UIFont.systemFont(ofSize: 27, design: .rounded)
-        addSubview(yearLabel)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         addSubview(collectionView)
         
-        selectedDateIndicatorView = UIView()
-        selectedDateIndicatorView.backgroundColor = .white.withAlphaComponent(0.35)
-        selectedDateIndicatorView.layer.cornerRadius = 10
-        addSubview(selectedDateIndicatorView)
+        backgroundView = UIView()
+        backgroundView.backgroundColor = .secondarySystemBackground
+        backgroundView.layer.cornerRadius = 13
+        insertSubview(backgroundView, belowSubview: collectionView)
         
-        monthLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            monthLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            monthLabel.topAnchor.constraint(equalTo: topAnchor),
-            
-        ])
-        
-        yearLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            yearLabel.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 8),
-            yearLabel.topAnchor.constraint(equalTo: monthLabel.topAnchor),
-        ])
+        indicatorView = UIView()
+        indicatorView.backgroundColor = .white.withAlphaComponent(0.35)
+        addSubview(indicatorView)
+
+//        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            backgroundView.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor),
+//            backgroundView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+//            backgroundView.heightAnchor.constraint(equalTo: collectionView.heightAnchor, multiplier: 1),
+//            backgroundView.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1),
+//        ])
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
-            collectionView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 8),
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            collectionView.leftAnchor.constraint(equalTo: leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 0.75)
         ])
         
-        updateLabels()
-        updateDates()
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        dates = getDates()
+        
+        collectionView.reloadData()
     }
     
     required init?(coder: NSCoder) {
@@ -108,10 +100,16 @@ class CalendarView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        updateSelectedDateIndicator()
+        let collectionViewCellMinDimension: CGFloat = min(collectionView.bounds.width / 7, collectionView.bounds.height / 6)
+        let backgroundViewWidth: CGFloat = collectionView.bounds.width - (collectionView.bounds.width - (collectionViewCellMinDimension * 7 + ((collectionView.bounds.width / 7 - collectionViewCellMinDimension) * 6)))
+        let backgroundViewHeight: CGFloat = collectionView.bounds.height
+        let backgroundViewXOrigin: CGFloat = collectionView.frame.minX + (collectionView.bounds.width - backgroundViewWidth) / 2
+        let backgroundViewYOrigin: CGFloat = collectionView.frame.minY
+        
+        backgroundView.frame = CGRect(x: backgroundViewXOrigin, y: backgroundViewYOrigin, width: backgroundViewWidth, height: backgroundViewHeight).inset(by: UIEdgeInsets(top: -1, left: -1, bottom: -1, right: -1))
     }
     
-    private func updateDates() {
+    private func getDates() -> [Date] {
         var dates = [Date]()
 
         // monthDateInterval is between first day of given month and first day of the following month
@@ -129,34 +127,72 @@ class CalendarView: UIView {
             }
         }
 
-        self.dates = dates
-        collectionView.reloadData()
+        return dates
     }
     
-    private func updateLabels() {
-        let monthDateFormatter = DateFormatter()
-        monthDateFormatter.dateFormat = "MMMM"
+    private func updateIndicator() {
+        guard let row = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }) else { return }
+
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) else { return }
         
-        monthLabel.text = monthDateFormatter.string(from: selectedDate)
+        NSLayoutConstraint.deactivate(constraints.filter({ $0.firstItem === indicatorView }))
         
-        let yearDateFormatter = DateFormatter()
-        yearDateFormatter.dateFormat = "YYYY"
-        
-        yearLabel.text = yearDateFormatter.string(from: selectedDate)
-    }
-    
-    private func updateSelectedDateIndicator() {
-        if let row = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }) {
-            selectedDateIndicatorView.isHidden = false
-            
-            guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) else { return }
-            let cellFrame = collectionView.convert(cell.frame, to: collectionView.superview)
-            let dimension = min(cellFrame.width, cellFrame.height)
-            selectedDateIndicatorView.frame.size = .init(width: dimension, height: dimension)
-            selectedDateIndicatorView.frame.origin = .init(x: cellFrame.minX + (cellFrame.width - dimension) / 2,
-                                                           y: cellFrame.minY + (cellFrame.height - dimension) / 2)
+        if cell.frame.height > cell.frame.width {
+            indicatorView.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
+            indicatorView.heightAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
         } else {
-            selectedDateIndicatorView.isHidden = true
+            indicatorView.widthAnchor.constraint(equalTo: cell.heightAnchor).isActive = true
+            indicatorView.heightAnchor.constraint(equalTo: cell.heightAnchor).isActive = true
+        }
+        
+        NSLayoutConstraint.activate([
+            indicatorView.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+            indicatorView.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+        ])
+        
+        UIView.animate(withDuration: 0, delay: 0, options: .curveEaseIn) { [weak self] in
+            guard let self = self else { return }
+            
+            layoutIfNeeded()
+            
+            var topLeftRadius: CGFloat = 3
+            var topRightRadius: CGFloat = 3
+            var bottomLeftRadius: CGFloat = 3
+            var bottomRightRadius: CGFloat = 3
+            
+            let dateIndex = dates.firstIndex(of: selectedDate)!
+            if dateIndex == 0 {
+                topLeftRadius = 13
+            } else if dateIndex == 6 {
+                topRightRadius = 13
+            } else if dateIndex == 35 {
+                bottomLeftRadius = 13
+            } else if dateIndex == 41 {
+                bottomRightRadius = 13
+            }
+            
+            let rect = indicatorView.bounds.inset(by: UIEdgeInsets(top: 1.5, left: 1.5, bottom: 1.5, right: 1.5))
+            
+            let minx = CGRectGetMinX(rect)
+            let miny = CGRectGetMinY(rect)
+            let maxx = CGRectGetMaxX(rect)
+            let maxy = CGRectGetMaxY(rect)
+
+            let path = UIBezierPath()
+            path.move(to: CGPointMake(minx + topLeftRadius, miny))
+            path.addLine(to: CGPointMake(maxx - topRightRadius, miny))
+            path.addArc(withCenter: CGPointMake(maxx - topRightRadius, miny + topRightRadius), radius: topRightRadius, startAngle: 3 * .pi / 2, endAngle: 0, clockwise: true)
+            path.addLine(to: CGPointMake(maxx, maxy - bottomRightRadius))
+            path.addArc(withCenter: CGPointMake(maxx - bottomRightRadius, maxy - bottomRightRadius), radius: bottomRightRadius, startAngle: 0, endAngle: .pi / 2, clockwise: true)
+            path.addLine(to: CGPointMake(minx + bottomLeftRadius, maxy))
+            path.addArc(withCenter: CGPointMake(minx + bottomLeftRadius, maxy - bottomLeftRadius), radius: bottomLeftRadius, startAngle: .pi / 2, endAngle: .pi, clockwise: true)
+            path.addLine(to: CGPointMake(minx, miny + topLeftRadius))
+            path.addArc(withCenter: CGPointMake(minx + topLeftRadius, miny + topLeftRadius), radius: topLeftRadius, startAngle: .pi, endAngle: 3 * .pi / 2, clockwise: true)
+            path.close()
+            
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = path.cgPath
+            indicatorView.layer.mask = maskLayer
         }
     }
 }
@@ -168,13 +204,13 @@ extension CalendarView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath ) -> UICollectionViewCell {
         let date = dates[indexPath.row]
-        let item = CalendarCollectionViewItem(
-            date: "\(Calendar.current.component(.day, from: date))",
-            font: .systemFont(ofSize: 15, weight: (Calendar.current.isDateInToday(date) ? .black : .regular), design: .rounded)
+        let model = CalendarCollectionViewCellModel(
+            labelText: "\(Calendar.current.component(.day, from: date))",
+            isLabelEnabled: Calendar.current.isDate(selectedDate, equalTo: date, toGranularity: .month)
         )
         
         let cell = collectionView.dequeueReusableCell(CalendarCollectionViewCell.self, for: indexPath)
-        cell.configure(with: item)
+        cell.configure(with: model)
         
         return cell
     }
