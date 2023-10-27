@@ -51,10 +51,10 @@ class CalendarView: UIView {
     
     private var dates: [Date]!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(selectedDate: Date) {
+        super.init(frame: .zero)
         
-        selectedDate = Date()
+        self.selectedDate = selectedDate
         
         monthLabel = UILabel()
         monthLabel.font = UIFont.systemFont(ofSize: 27, weight: .medium, design: .rounded)
@@ -146,15 +146,18 @@ class CalendarView: UIView {
     }
     
     private func updateSelectedDateIndicator() {
-        guard let row = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }) else { return }
-        
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) else { return }
-        let cellFrame = collectionView.convert(cell.frame, to: collectionView.superview)
-        let dimension = min(cellFrame.width, cellFrame.height)
-        selectedDateIndicatorView.frame.size = .init(width: dimension, height: dimension)
-        selectedDateIndicatorView.frame.origin = .init(x: cellFrame.minX + (cellFrame.width - dimension) / 2,
-                                                       y: cellFrame.minY + (cellFrame.height - dimension) / 2)
-//        selectedDateIndicatorView.center = .init(x: cellFrame.minX, y: cellFrame.midY)
+        if let row = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }) {
+            selectedDateIndicatorView.isHidden = false
+            
+            guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) else { return }
+            let cellFrame = collectionView.convert(cell.frame, to: collectionView.superview)
+            let dimension = min(cellFrame.width, cellFrame.height)
+            selectedDateIndicatorView.frame.size = .init(width: dimension, height: dimension)
+            selectedDateIndicatorView.frame.origin = .init(x: cellFrame.minX + (cellFrame.width - dimension) / 2,
+                                                           y: cellFrame.minY + (cellFrame.height - dimension) / 2)
+        } else {
+            selectedDateIndicatorView.isHidden = true
+        }
     }
 }
 

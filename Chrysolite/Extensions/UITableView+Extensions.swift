@@ -13,6 +13,10 @@ extension UITableView {
         return view
     }
     
+    func register<T>(_ headerClass: T.Type) where T: UITableViewHeaderFooterView, T: IdentifiableView {
+        register(headerClass, forHeaderFooterViewReuseIdentifier: headerClass.identifier)
+    }
+    
     func dequeueReusableHeaderFooterView<T>(_ cellClass: T.Type) -> T where T: UITableViewHeaderFooterView, T: IdentifiableView {
         guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as? T else {
             fatalError()
