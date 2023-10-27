@@ -97,18 +97,14 @@ class CalendarView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
         ])
         
+        selectedDateIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
         updateLabels()
         updateDates()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        updateSelectedDateIndicator()
     }
     
     private func updateDates() {
@@ -147,14 +143,32 @@ class CalendarView: UIView {
     
     private func updateSelectedDateIndicator() {
         guard let row = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }) else { return }
-        
+
         guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) else { return }
-        let cellFrame = collectionView.convert(cell.frame, to: collectionView.superview)
-        let dimension = min(cellFrame.width, cellFrame.height)
-        selectedDateIndicatorView.frame.size = .init(width: dimension, height: dimension)
-        selectedDateIndicatorView.frame.origin = .init(x: cellFrame.minX + (cellFrame.width - dimension) / 2,
-                                                       y: cellFrame.minY + (cellFrame.height - dimension) / 2)
-//        selectedDateIndicatorView.center = .init(x: cellFrame.minX, y: cellFrame.midY)
+        
+        NSLayoutConstraint.deactivate(constraints.filter({ $0.firstItem === selectedDateIndicatorView }))
+        
+        let widthConstraint: NSLayoutConstraint
+        let heightConstraint: NSLayoutConstraint
+        
+        if cell.frame.height > cell.frame.width {
+            widthConstraint = selectedDateIndicatorView.widthAnchor.constraint(equalTo: cell.widthAnchor)
+            heightConstraint = selectedDateIndicatorView.heightAnchor.constraint(equalTo: cell.widthAnchor)
+        } else {
+            widthConstraint = selectedDateIndicatorView.widthAnchor.constraint(equalTo: cell.heightAnchor)
+            heightConstraint = selectedDateIndicatorView.heightAnchor.constraint(equalTo: cell.heightAnchor)
+        }
+        
+        NSLayoutConstraint.activate([
+            selectedDateIndicatorView.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+            selectedDateIndicatorView.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+            widthConstraint,
+            heightConstraint
+        ])
+        
+        UIView.animate(withDuration: 0.075, delay: 0, options: .curveEaseIn) { [weak self] in
+            self?.layoutIfNeeded()
+        }
     }
 }
 
