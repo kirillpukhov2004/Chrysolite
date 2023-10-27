@@ -67,14 +67,6 @@ class MainViewModel: MainViewModelProtocol {
         lastDate = Calendar.current.date(byAdding: .init(year: 1, day: -1), to: firstDate)!
         
         eventsTableViewDataUpdatedSubject = PassthroughSubject<Void, Never>()
-//        eventsTableViewDataUpdatedSubject.sink { [weak self] in
-//            guard let self = self else { return }
-//            
-//            if #available(iOS 15.0, *) {
-//                print(firstDate.formatted(), lastDate.formatted(), Calendar.current.dateComponents([.day], from: firstDate, to: lastDate).day!)
-//            }
-//        }
-//        .store(in: &cancellables)
         
         updateEventSubscription()
     }
@@ -233,6 +225,7 @@ class MainViewModel: MainViewModelProtocol {
             firstDate = startOfThePreviousYear
         }
         
+        updateEventSubscription()
         eventsTableViewDataUpdatedSubject.send()
     }
     
@@ -244,6 +237,7 @@ class MainViewModel: MainViewModelProtocol {
             lastDate = endOfTheNextYear
         }
         
+        updateEventSubscription()
         eventsTableViewDataUpdatedSubject.send()
     }
     

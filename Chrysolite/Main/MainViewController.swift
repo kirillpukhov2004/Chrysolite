@@ -15,7 +15,7 @@ class MainViewController: UIViewController {
     
     var eventsTableView: UITableView!
     
-    var isUpdating: Bool = false
+    var isUpdating: Bool = true
     
     init(viewModel: MainViewModelProtocol) {
         self.viewModel = viewModel
@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         plusBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonPressed))
         navigationItem.rightBarButtonItems = [plusBarButtonItem]
         
-        calendarView = CalendarView(selectedDate: viewModel.selectedDate)
+        calendarView = CalendarView()
         view.addSubview(calendarView)
 
         eventsTableView = UITableView(frame: .zero, style: .plain)
@@ -54,12 +54,14 @@ class MainViewController: UIViewController {
         }
         view.addSubview(eventsTableView)
         
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            calendarView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            calendarView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            calendarView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.425)
+            calendarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            calendarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 16)
         ])
         
         eventsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,6 +96,11 @@ class MainViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        isUpdating = false
+        calendarView.selectedDate = viewModel.selectedDate
+    }
+    
     // MARK: Selector Functions
     
     @objc private func calendarButtonPressed() {
@@ -146,24 +153,26 @@ extension MainViewController: UITableViewDelegate {
         viewModel.eventTableViewCellSelectedAction(indexPath)
     }
     
-    func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-        guard let section = tableView.indexesOfVisibleSections.first else { return }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let section = eventsTableView.indexesOfVisibleSections.first else { return }
         
         if !isUpdating {
             viewModel.eventTableViewTopHeaderDidChanged(to: section)
         }
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let screenHeight = scrollView.frame.size.height
  
         
-        if offsetY <= 0 {
-            viewModel.eventTableviewDidScrollToTop()
-        } else if offsetY > contentHeight - screenHeight {
-            viewModel.eventTableViewDidScrollToBottom()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if offsetY <= 0 {
+                viewModel.eventTableviewDidScrollToTop()
+            } else if offsetY > contentHeight - screenHeight {
+                viewModel.eventTableViewDidScrollToBottom()
+            }
         }
     }
     
