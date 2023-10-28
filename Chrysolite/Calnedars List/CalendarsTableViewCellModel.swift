@@ -1,6 +1,6 @@
 import UIKit
 
-struct CalendarsListTableViewItem {
+struct CalendarsTableViewCellModel {
     var title: String
     var color: UIColor
 }

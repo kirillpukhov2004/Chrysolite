@@ -69,14 +69,6 @@ class CalendarView: UIView {
         indicatorView = UIView()
         indicatorView.backgroundColor = .white.withAlphaComponent(0.35)
         addSubview(indicatorView)
-
-//        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            backgroundView.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor),
-//            backgroundView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
-//            backgroundView.heightAnchor.constraint(equalTo: collectionView.heightAnchor, multiplier: 1),
-//            backgroundView.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1),
-//        ])
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -33,7 +33,7 @@ class CalendarsViewController: UIViewController {
         navigationItem.rightBarButtonItems = [doneBarButtonItem]
 
         calendarsTableView = UITableView(frame: .zero, style: .plain)
-        calendarsTableView.register(CalendarsListTableViewCell.self)
+        calendarsTableView.register(CalendarsTableViewCell.self)
         calendarsTableView.delegate = self
         view.addSubview(calendarsTableView)
         
@@ -50,7 +50,7 @@ class CalendarsViewController: UIViewController {
         calendarsTableViewDiffableDataSource = CalendarsTableViewDataSourceType(tableView: calendarsTableView) { [weak self] tableView, indexPath, calendarIdentifier in
             guard let self = self else { return .init() }
             
-            let cell = tableView.dequeueReusableCell(CalendarsListTableViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(CalendarsTableViewCell.self, for: indexPath)
             
             let item = viewModel.calendarsTableViewItem(with: calendarIdentifier)
             cell.configureCell(for: item)

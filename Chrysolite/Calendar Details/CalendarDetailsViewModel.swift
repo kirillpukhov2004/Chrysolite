@@ -1,27 +1,21 @@
 import UIKit
 import EventKit
-import Combine
-import OSLog
-
-protocol CalendarDetailsViewModelProtocol: AnyObject {
-    var calendarDetailsTableViewItem: CalendarDetailsTableViewItem { get }
-}
 
 class CalendarDetailsViewModel: CalendarDetailsViewModelProtocol {
     let eventManager: EventManager
 
     let calendar: EKCalendar
     
-    var calendarDetailsTableViewItem: CalendarDetailsTableViewItem {
-        CalendarDetailsTableViewItem(title: calendar.title,
-                                     color: UIColor(cgColor: calendar.cgColor),
-                                     sourceType: .init(source: calendar.source))
+    var calendarDetailsTableViewCellModel: CalendarDetailsTableViewCellModel
 
-    }
-
-    init(eventManager: EventManager, calendar: EKCalendar) {
+    init(calendar: EKCalendar, eventManager: EventManager) {
         self.eventManager = eventManager
         
         self.calendar = calendar
+        
+        calendarDetailsTableViewCellModel = CalendarDetailsTableViewCellModel(
+            titleLabelText: calendar.title,
+            calendarIndicatorColor: UIColor(cgColor: calendar.cgColor)
+        )
     }
 }

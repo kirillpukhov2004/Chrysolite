@@ -3,25 +3,14 @@ import Combine
 import EventKit
 import OSLog
 
-protocol CalendarsViewModelProtocol: AnyObject {
-    var calendarsIdentifiersPublisher: AnyPublisher<[String], Never> { get }
-
-    func calendarsListTableViewItem(with calendarIdentifier: String) -> CalendarsListTableViewItem
-
-    func calendar(with calendarIdentifier: String) -> EKCalendar
-    
-    func calendarSelectedAction(calendarIdentifier: String)
-}
-
 class CalendarsViewModel: CalendarsViewModelProtocol {
-    let coordinator: CalendarsListFlowCoordinatorProtocol
+    let coordinator: CalendarsFlowCoordinatorProtocol
     
     let calendarManager: CalendarManager
-    
     let eventManager: EventManager
 
     init(
-        coordinator: CalendarsListFlowCoordinatorProtocol,
+        coordinator: CalendarsFlowCoordinatorProtocol,
         calendarManager: CalendarManager,
         eventManager: EventManager
     ) {
@@ -34,8 +23,8 @@ class CalendarsViewModel: CalendarsViewModelProtocol {
         calendarManager.calendarsIdentifiersPublisher()
     }
 
-    func calendarsListTableViewItem(with calendarIdentifier: String) -> CalendarsListTableViewItem {
-        let item: CalendarsListTableViewItem
+    func calendarsTableViewItem(with calendarIdentifier: String) -> CalendarsTableViewCellModel {
+        let item: CalendarsTableViewCellModel
 
         do {
             let calendar = try calendarManager.calendar(with: calendarIdentifier)

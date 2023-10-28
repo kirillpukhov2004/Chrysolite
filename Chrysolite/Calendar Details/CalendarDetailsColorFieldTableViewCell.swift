@@ -39,8 +39,8 @@ class CalendarDetailsColorFieldTableViewCell: UITableViewCell, IdentifiableView 
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with item: CalendarDetailsTableViewItem) {
-        colorIndicator.backgroundColor = item.color
+    func configure(with item: CalendarDetailsTableViewCellModel) {
+        colorIndicator.backgroundColor = item.calendarIndicatorColor
     }
 
     private struct Constants {

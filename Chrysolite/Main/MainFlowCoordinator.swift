@@ -1,21 +1,15 @@
 import UIKit
 import EventKit
 
-protocol MainFlowCoordinatorProtocol: Coordinator {
-    func startCalendarsListFlow()
-    
-    func showDetails(for event: EKEvent)
-}
-
 class MainFlowCoordinator: NSObject, MainFlowCoordinatorProtocol {
     var childCoordinators = [Coordinator]()
     
-    var router: Router
+    var router: NavigationRouter
     
     var eventStore: EKEventStore
     
     init(navigationController: UINavigationController, eventStore: EKEventStore) {
-        router = Router(navigationController: navigationController)
+        router = NavigationRouter(navigationController: navigationController)
         
         self.eventStore = eventStore
     }
@@ -33,7 +27,7 @@ class MainFlowCoordinator: NSObject, MainFlowCoordinatorProtocol {
         navigationController.modalPresentationStyle = .custom
         navigationController.modalTransitionStyle = .crossDissolve
         
-        let coordinator = CalendarsListFlowCoordinator(navigationController: navigationController, eventStore: eventStore)
+        let coordinator = CalendarsFlowCoordinator(navigationController: navigationController, eventStore: eventStore)
 
         childCoordinators.append(coordinator)
         router.presentViewController(navigationController)

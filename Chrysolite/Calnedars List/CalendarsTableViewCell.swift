@@ -1,7 +1,7 @@
 import UIKit
 
-class CalendarsListTableViewCell: UITableViewCell, IdentifiableView {
-    static let identifier = "CalendarsListTableViewCell"
+class CalendarsTableViewCell: UITableViewCell, IdentifiableView {
+    static let identifier = "CalendarsTableViewCell"
 
     var colorIndicatorView: UIView!
 
@@ -54,7 +54,7 @@ class CalendarsListTableViewCell: UITableViewCell, IdentifiableView {
         ])
     }
 
-    func configureCell(for item: CalendarsListTableViewItem) {
+    func configureCell(for item: CalendarsTableViewCellModel) {
         titleLabel.text = item.title
 
         colorIndicatorView.backgroundColor = item.color

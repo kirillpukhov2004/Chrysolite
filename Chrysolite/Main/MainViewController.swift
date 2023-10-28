@@ -54,14 +54,12 @@ class MainViewController: UIViewController {
         }
         view.addSubview(eventsTableView)
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             calendarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             calendarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 16)
+            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 24)
         ])
         
         eventsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,9 +94,17 @@ class MainViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         isUpdating = false
         calendarView.selectedDate = viewModel.selectedDate
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: Selector Functions
@@ -151,6 +157,8 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.eventTableViewCellSelectedAction(indexPath)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

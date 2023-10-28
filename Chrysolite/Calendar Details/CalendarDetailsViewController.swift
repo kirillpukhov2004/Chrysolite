@@ -6,7 +6,6 @@ import OSLog
 enum CalendarDetailsFields: CaseIterable {
     case title
     case color
-    case sourceType
 }
 
 class CalendarDetailsViewController: UIViewController {
@@ -26,41 +25,19 @@ class CalendarDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        configureViews()
-        addSubviews()
-        setupConstraints()
-    }
-
-    func configureViews() {
+    override func loadView() {
+        view = UIView()
         view.backgroundColor = .systemBackground
 
-        editBarButtonItem = UIBarButtonItem(
-            systemItem: .edit,
-            primaryAction: UIAction { [weak self] _ in
-                self?.isEditing.toggle()
-            }
-        )
-
-        tableView = UITableView(frame: .zero, style: .plain)
-
-        tableView.register(CalendarDetailsTitleFieldTableViewCell.self,
-                           forCellReuseIdentifier: CalendarDetailsTitleFieldTableViewCell.identifier)
-        tableView.register(CalendarDetailsColorFieldTableViewCell.self,
-                           forCellReuseIdentifier: CalendarDetailsColorFieldTableViewCell.identifier)
-        tableView.register(CalendarDetailsSourceFieldTableViewCell.self,
-                           forCellReuseIdentifier: CalendarDetailsSourceFieldTableViewCell.identifier)
-
-        tableView.dataSource = self
-    }
-
-    func addSubviews() {
+        editBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         navigationItem.rightBarButtonItems = [editBarButtonItem]
 
+        tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(CalendarDetailsTitleFieldTableViewCell.self)
+        tableView.register(CalendarDetailsColorFieldTableViewCell.self)
+        tableView.dataSource = self
         view.addSubview(tableView)
-    }
-
-    func setupConstraints() {
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -68,6 +45,10 @@ class CalendarDetailsViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+    
+    @objc func editButtonPressed() {
+        isEditing.toggle()
     }
 }
 
@@ -83,7 +64,7 @@ extension CalendarDetailsViewController: UITableViewDataSource {
                                                      for: indexPath) as? CalendarDetailsTitleFieldTableViewCell
             guard let cell = cell else { fatalError() }
 
-            cell.configure(with: viewModel.calendarDetailsTableViewItem)
+            cell.configure(with: viewModel.calendarDetailsTableViewCellModel)
 
             return cell
         case .color:
@@ -91,15 +72,7 @@ extension CalendarDetailsViewController: UITableViewDataSource {
                                                      for: indexPath) as? CalendarDetailsColorFieldTableViewCell
             guard let cell = cell else { fatalError() }
 
-            cell.configure(with: viewModel.calendarDetailsTableViewItem)
-
-            return cell
-        case .sourceType:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CalendarDetailsSourceFieldTableViewCell.identifier,
-                                                     for: indexPath) as? CalendarDetailsSourceFieldTableViewCell
-            guard let cell = cell else { fatalError() }
-
-            cell.configure(with: viewModel.calendarDetailsTableViewItem)
+            cell.configure(with: viewModel.calendarDetailsTableViewCellModel)
 
             return cell
         }

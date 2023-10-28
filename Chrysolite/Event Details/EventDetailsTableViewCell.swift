@@ -25,7 +25,7 @@ class EventDetailsTableViewCell: UITableViewCell, IdentifiableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with item: EventDetailsTableViewItem) {
-        label.text = item.title
+    func configure(with model: EventDetailsTableViewCellModel) {
+        label.text = model.title
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-class Router {
+class NavigationRouter {
     let navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {

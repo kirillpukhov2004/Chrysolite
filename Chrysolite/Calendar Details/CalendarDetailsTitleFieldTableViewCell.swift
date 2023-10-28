@@ -25,7 +25,7 @@ class CalendarDetailsTitleFieldTableViewCell: UITableViewCell, IdentifiableView 
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with item: CalendarDetailsTableViewItem) {
-        label.text = item.title
+    func configure(with item: CalendarDetailsTableViewCellModel) {
+        label.text = item.titleLabelText
     }
 }

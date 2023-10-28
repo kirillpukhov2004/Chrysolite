@@ -3,14 +3,10 @@ import EventKit
 import Combine
 import OSLog
 
-protocol EventDetailsViewModelProtocol: AnyObject {
-    var eventDetailsTableViewItem: EventDetailsTableViewItem { get }
-}
-
 class EventDetailsViewModel: EventDetailsViewModelProtocol {
     let eventManager: EventManager
     
-    var eventDetailsTableViewItem: EventDetailsTableViewItem
+    var eventDetailsTableViewItem: EventDetailsTableViewCellModel
     
     var event: EKEvent
     
@@ -18,7 +14,7 @@ class EventDetailsViewModel: EventDetailsViewModelProtocol {
         self.event = event
         self.eventManager = eventManager
         
-        eventDetailsTableViewItem = EventDetailsTableViewItem(title: event.title)
+        eventDetailsTableViewItem = EventDetailsTableViewCellModel(title: event.title)
     }
 }
 //protocol EventCreationViewModelProtocol: AnyObject {
