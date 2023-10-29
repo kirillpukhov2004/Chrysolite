@@ -90,14 +90,14 @@ class MainViewController: UIViewController {
             calendarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             calendarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             calendarView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 10),
-            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 12)
+            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75),
         ])
         
         eventsTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             eventsTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             eventsTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            eventsTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor),
+            eventsTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 12),
             eventsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
@@ -124,14 +124,32 @@ class MainViewController: UIViewController {
             .sink { [weak self] in
                 guard let self = self else { return }
                 
+                let beforeNumberOfSections = eventsTableView.numberOfSections
+                let beforeOffset = eventsTableView.contentOffset
+
                 isUpdating = true
+
                 eventsTableView.reloadData()
+                
+                if max(0, beforeOffset.y) == 0 {
+                    let afterNumberOfSections = eventsTableView.numberOfSections
+                    
+                    let newContentOffset = eventsTableView.rectForHeader(inSection: afterNumberOfSections - beforeNumberOfSections).origin
+                    
+                    eventsTableView.setContentOffset(newContentOffset, animated: false)
+                } else {
+                    let afterOffset = eventsTableView.contentOffset
+                
+                    let newContentOffset = CGPoint(x: afterOffset.x - beforeOffset.x, y: afterOffset.y - afterOffset.x)
+                    
+                    eventsTableView.setContentOffset(newContentOffset, animated: false)
+                }
+                
                 isUpdating = false
-                // Scroll to selectedDate
-                let indexPath = viewModel.newIndexPath()
-                eventsTableView.scrollToRow(at: indexPath, at: .top, animated: false)
             }
             .store(in: &cancellables)
+        
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -213,7 +231,7 @@ extension MainViewController: UITableViewDelegate {
         let screenHeight = scrollView.frame.size.height
  
         
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             
             if offsetY <= 0 {

@@ -33,7 +33,7 @@ class CalendarCollectionViewCell: UICollectionViewCell, IdentifiableView {
 class CalendarView: UIView {
     var collectionView: UICollectionView!
     
-    var backgroundView: UIView!
+    var backgroundLayer: CALayer!
     
     var indicatorView: UIView!
     
@@ -61,10 +61,15 @@ class CalendarView: UIView {
         collectionView.backgroundColor = .clear
         addSubview(collectionView)
         
-        backgroundView = UIView()
-        backgroundView.backgroundColor = .secondarySystemBackground
-        backgroundView.layer.cornerRadius = 13
-        insertSubview(backgroundView, belowSubview: collectionView)
+//        backgroundView = UIView()
+//        backgroundView.backgroundColor = .secondarySystemBackground
+//        backgroundView.layer.cornerRadius = 13
+//        insertSubview(backgroundView, belowSubview: collectionView)
+        
+        backgroundLayer = CALayer()
+        backgroundLayer.backgroundColor = UIColor.secondarySystemBackground.cgColor
+        backgroundLayer.cornerRadius = 13
+        layer.insertSublayer(backgroundLayer, at: 0)
         
         indicatorView = UIView()
         indicatorView.backgroundColor = .white.withAlphaComponent(0.35)
@@ -98,7 +103,7 @@ class CalendarView: UIView {
         let backgroundViewXOrigin: CGFloat = collectionView.frame.minX + (collectionView.bounds.width - backgroundViewWidth) / 2
         let backgroundViewYOrigin: CGFloat = collectionView.frame.minY
         
-        backgroundView.frame = CGRect(x: backgroundViewXOrigin, y: backgroundViewYOrigin, width: backgroundViewWidth, height: backgroundViewHeight).inset(by: UIEdgeInsets(top: -1, left: -1, bottom: -1, right: -1))
+        backgroundLayer.frame = CGRect(x: backgroundViewXOrigin, y: backgroundViewYOrigin, width: backgroundViewWidth, height: backgroundViewHeight).inset(by: UIEdgeInsets(top: -1, left: -1, bottom: -1, right: -1))
     }
     
     private func getDates() -> [Date] {

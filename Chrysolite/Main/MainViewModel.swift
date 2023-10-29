@@ -22,7 +22,7 @@ class MainViewModel: MainViewModelProtocol {
     var eventSubscription: AnyCancellable?
     var groupedEvents = [(Date, [EKEvent])]()
     
-    var showOnlyDaysWithEevents: Bool = false
+    var showOnlyDaysWithEevents: Bool = true
     
     init(coordinator: MainFlowCoordinatorProtocol, eventManager: EventManager) {
         self.coordinator = coordinator
