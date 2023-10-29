@@ -2,7 +2,7 @@ import UIKit
 
 typealias EventsTableViewDataType = [(section: EventsTableViewHeaderModel, items: [EventsTableViewCellModel])]
 
-struct EventsTableViewHeaderModel: Hashable {
+struct EventsTableViewHeaderModel: Equatable, Hashable {
     let date: Date
     let weekDayText: String
     let dateLabelText: String

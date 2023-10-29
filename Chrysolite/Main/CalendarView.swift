@@ -152,7 +152,7 @@ class CalendarView: UIView {
             var bottomLeftRadius: CGFloat = 3
             var bottomRightRadius: CGFloat = 3
             
-            let dateIndex = dates.firstIndex(of: selectedDate)!
+            let dateIndex = dates.firstIndex(of: Calendar.current.startOfDay(for: selectedDate))!
             if dateIndex == 0 {
                 topLeftRadius = 13
             } else if dateIndex == 6 {

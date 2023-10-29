@@ -57,7 +57,7 @@ class EventsTableViewCell: UITableViewCell, IdentifiableView {
         titleLabel.text = item.title
     }
 
-    private struct Constants {
+    private enum Constants {
         static let calendarColorIndicatorDimension: CGFloat = 10
     }
 }

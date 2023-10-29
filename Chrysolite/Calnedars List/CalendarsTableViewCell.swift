@@ -60,7 +60,7 @@ class CalendarsTableViewCell: UITableViewCell, IdentifiableView {
         colorIndicatorView.backgroundColor = item.color
     }
 
-    private struct Constants {
+    private enum Constants {
         static let colorIndicatorDimension: CGFloat = 15
     }
 }

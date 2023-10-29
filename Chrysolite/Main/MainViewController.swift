@@ -10,7 +10,13 @@ class MainViewController: UIViewController {
 
     var calendarBarButtonItem: UIBarButtonItem!
     var plusBarButtonItem: UIBarButtonItem!
-
+    
+    var dateStackView: UIStackView!
+    
+    var monthLabel: UILabel!
+    
+    var yearLabel: UILabel!
+    
     var calendarView: CalendarView!
     
     var eventsTableView: UITableView!
@@ -39,9 +45,25 @@ class MainViewController: UIViewController {
         plusBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonPressed))
         navigationItem.rightBarButtonItems = [plusBarButtonItem]
         
+        dateStackView = UIStackView()
+        dateStackView.axis = .horizontal
+        dateStackView.distribution = .fill
+        dateStackView.alignment = .bottom
+        view.addSubview(dateStackView)
+        
+        monthLabel = UILabel()
+        monthLabel.textColor = .label
+        monthLabel.font = .systemFont(ofSize: 32, weight: .bold, design: .rounded)
+        dateStackView.addArrangedSubview(monthLabel)
+        
+        yearLabel = UILabel()
+        yearLabel.textColor = .label
+        yearLabel.font = .systemFont(ofSize: 30, weight: .medium, design: .rounded)
+        dateStackView.addArrangedSubview(yearLabel)
+        
         calendarView = CalendarView()
         view.addSubview(calendarView)
-
+        
         eventsTableView = UITableView(frame: .zero, style: .plain)
         eventsTableView.register(EventsTableViewCell.self)
         eventsTableView.register(EventsTableViewHeaderView.self)
@@ -54,12 +76,21 @@ class MainViewController: UIViewController {
         }
         view.addSubview(eventsTableView)
         
+        dateStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dateStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            dateStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            dateStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16)
+        ])
+        
+        dateStackView.setCustomSpacing(8, after: monthLabel)
+        
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             calendarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             calendarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 24)
+            calendarView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 10),
+            calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor, multiplier: 0.75, constant: 12)
         ])
         
         eventsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +108,15 @@ class MainViewController: UIViewController {
                 guard let self = self else { return }
                 
                 calendarView.selectedDate = date
+                
+                let monthDateFormatter = DateFormatter()
+                monthDateFormatter.dateFormat = "MMMM"
+                
+                let yearDateFormatter = DateFormatter()
+                yearDateFormatter.dateFormat = "YYYY"
+                
+                monthLabel.text = monthDateFormatter.string(from: viewModel.selectedDate)
+                yearLabel.text = yearDateFormatter.string(from: viewModel.selectedDate)
             }
             .store(in: &cancellables)
         
@@ -95,7 +135,7 @@ class MainViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -104,7 +144,7 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+//        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: Selector Functions
