@@ -42,7 +42,7 @@ extension UITableView {
                     headerRect = rectForHeader(inSection: sectionIndex)
                 }
                 
-                if #available(iOS 15.0,  *) {
+                if #available(iOS 15.0, *) {
                     headerRect = CGRect(
                         x: headerRect.origin.x,
                         y: headerRect.origin.y - sectionHeaderTopPadding,

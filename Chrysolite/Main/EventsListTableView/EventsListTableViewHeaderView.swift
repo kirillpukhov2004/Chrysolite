@@ -1,8 +1,8 @@
 import UIKit
 
-class EventsTableViewHeaderView: UITableViewHeaderFooterView, IdentifiableView {
-    static let identifier = "EventsTableViewHeaderView"
-    
+class EventsListTableViewHeaderView: UITableViewHeaderFooterView, IdentifiableView {
+    static let identifier = "EventsListTableViewHeaderView"
+
     private var weekDayLabel: UILabel!
     private var dateLabel: UILabel!
     
@@ -38,7 +38,7 @@ class EventsTableViewHeaderView: UITableViewHeaderFooterView, IdentifiableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with section: EventsTableViewHeaderModel) {
+    func configure(with section: EventsListTableViewHeaderViewModel) {
         weekDayLabel.text = section.weekDayText
         dateLabel.text = section.dateLabelText
     }

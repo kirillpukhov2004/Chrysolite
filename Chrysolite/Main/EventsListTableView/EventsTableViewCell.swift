@@ -1,6 +1,6 @@
 import UIKit
 
-class EventsTableViewCell: UITableViewCell, IdentifiableView {
+class EventsListTableViewCell: UITableViewCell, IdentifiableView {
     static let identifier = "EventsListTableViewCell"
 
     var stackView: UIStackView!
@@ -51,7 +51,7 @@ class EventsTableViewCell: UITableViewCell, IdentifiableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with item: EventsTableViewCellModel) {
+    func configure(with item: EventsListTableViewCellModel) {
         calendarColorIndicatorView.backgroundColor = item.calendarColor
 
         titleLabel.text = item.title

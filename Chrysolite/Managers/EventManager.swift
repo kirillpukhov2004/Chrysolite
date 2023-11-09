@@ -10,9 +10,6 @@ enum EventManagerError: Error {
 class EventManager {
     private let eventStore: EKEventStore
 
-    var startDate = Date()
-    var endDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
-
     var eventStoreChangedPublisher: AnyPublisher<Void, Never>
     
     var cancellables = Set<AnyCancellable>()
@@ -23,40 +20,55 @@ class EventManager {
         eventStoreChangedPublisher = eventStore.eventStoreChangedPublisher
     }
     
-    func eventPublisher(startDate: Date, endDate: Date, calendars: [EKCalendar]? = nil) -> AnyPublisher<[EKEvent], Never> {
-        let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
-            
-        let events = eventStore.events(matching: predicate)
-        
+    func eventPublisher(from startDate: Date, to endDate: Date, calendars: [EKCalendar]? = nil) -> AnyPublisher<[EKEvent], Never> {
+        let events = getEvents(from: startDate, to: endDate)
+
         let subject = CurrentValueSubject<[EKEvent], Never>(events)
         
         eventStoreChangedPublisher
             .map { [weak self] in
                 guard let self = self else { return [] }
                 
-                return eventStore.events(matching: predicate)
+                return getEvents(from: startDate, to: endDate)
             }
             .subscribe(subject)
             .store(in: &cancellables)
         
         return subject.eraseToAnyPublisher()
     }
-    
-    func eventsIdentifiersPublisher(startDate: Date, endDate: Date, calendars: [EKCalendar]? = nil) -> AnyPublisher<[String], Never> {
-        let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
 
-        let publisher = eventStoreChangedPublisher
-            .map { [weak self] in
-                guard let self = self else { return [String]() }
+    func getEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]? = nil) -> [EKEvent] {
+        let calendar = Calendar.current
 
-                let events = eventStore.events(matching: predicate)
-                let eventsIdentifiers = events.compactMap { $0.eventIdentifier }
+        var events = [EKEvent]()
 
-                return eventsIdentifiers
+        var currentDate = startDate
+        while currentDate < endDate {
+            let nextDate = calendar.date(byAdding: DateComponents(year: 4), to: currentDate)!
+
+            let predicate: NSPredicate
+            if nextDate > endDate {
+                predicate = eventStore.predicateForEvents(
+                    withStart: currentDate,
+                    end: endDate,
+                    calendars: calendars
+                )
+
+                currentDate = endDate
+            } else {
+                predicate = eventStore.predicateForEvents(
+                    withStart: currentDate,
+                    end: nextDate,
+                    calendars: calendars
+                )
+
+                currentDate = nextDate
             }
-            .eraseToAnyPublisher()
 
-        return publisher
+            events.append(contentsOf: eventStore.events(matching: predicate))
+        }
+
+        return events
     }
 
     func event(with eventIdentifier: String) throws -> EKEvent {

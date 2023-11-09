@@ -1,7 +1,9 @@
 import UIKit
 import EventKit
 import Combine
+import DifferenceKit
 import OSLog
+import CalendarKit
 
 class MainViewModel: MainViewModelProtocol {
     let coordinator: MainFlowCoordinatorProtocol
@@ -16,28 +18,15 @@ class MainViewModel: MainViewModelProtocol {
         $selectedDate
     }
     
-    var firstDate: Date
-    var lastDate: Date
-    
-    var eventSubscription: AnyCancellable?
-    var groupedEvents = [(Date, [EKEvent])]()
-    
-    var showOnlyDaysWithEevents: Bool = true
-    
     init(coordinator: MainFlowCoordinatorProtocol, eventManager: EventManager) {
         self.coordinator = coordinator
         
         self.eventManager = eventManager
-        
-        let selectedDate = Date()
-        self.selectedDate = selectedDate
-        firstDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: selectedDate))!
-        lastDate = Calendar.current.date(byAdding: .init(year: 1, day: -1), to: firstDate)!
-        
-        eventsTableViewDataUpdatedSubject = PassthroughSubject<Void, Never>()
-        
-        updateEventSubscription()
+
+        selectedDate = Date()
     }
+    
+    // MARK: Actions
     
     func calendarButtonPressedAction() {
         coordinator.startCalendarsListFlow()
@@ -45,148 +34,89 @@ class MainViewModel: MainViewModelProtocol {
     
     func plusButtonPressedAction() {}
     
-    func updateEventSubscription() {
-        if let eventSubscription = eventSubscription { eventSubscription.cancel() }
-        
-        eventSubscription = eventManager.eventPublisher(startDate: firstDate, endDate: lastDate)
-            .sink { [weak self] events in
-                let gruopedEventsDictionary = Dictionary(grouping: events, by: { Calendar.current.startOfDay(for: $0.startDate) })
-                
-                self?.groupedEvents = gruopedEventsDictionary.sorted { $0.key < $1.key }
-            }
-    }
-    
-    // MARK: EventsTableView
-    
-    var eventsTableViewDataUpdatedSubject: PassthroughSubject<Void, Never>
-    
-    var numberOfSectionsInEventsTableView: Int {
-        if showOnlyDaysWithEevents {
-            return groupedEvents.count
-        } else {
-            return Calendar.current.dateComponents([.day], from: firstDate, to: lastDate).day!
-        }
-    }
-    
-    func newIndexPath() -> IndexPath {
-        if showOnlyDaysWithEevents {
-            fatalError()
-        } else {
-            let section = Calendar.current.dateComponents([.day], from: firstDate, to: selectedDate).day!
-            
-            return IndexPath(row: NSNotFound, section: section)
-        }
-    }
-    
-    func numberOfRowsInEventsTableView(for section: Int) -> Int {
-        getEvents(in: section).count
-    }
-    
-    func eventsTableViewCellModel(for indexPath: IndexPath) -> EventsTableViewCellModel {
-        let event = getEvent(for: indexPath)
-        
-        return EventsTableViewCellModel(date: event.startDate, eventIdentifier: event.eventIdentifier, title: event.title, calendarColor: UIColor(cgColor: event.calendar.cgColor))
-    }
-    
-    func eventsTableViewHeaderModel(for section: Int) -> EventsTableViewHeaderModel {
-        let date = getDate(for: section)
-
-        let weekDayFormatter = DateFormatter()
-        weekDayFormatter.dateFormat = "EEEE"
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        
-        return EventsTableViewHeaderModel(date: date, weekDayText: weekDayFormatter.string(from: date), dateLabelText: dateFormatter.string(from: date))
-    }
-    
-    func eventTableViewCellSelectedAction(_ indexPath: IndexPath) {
-        let event = getEvent(for: indexPath)
-
-        coordinator.showDetails(for: event)
-    }
-    
-    func eventTableViewTopHeaderDidChanged(to section: Int) {
-        let date = getDate(for: section)
-
-        selectedDate = date
-    }
-    
-    func eventTableviewDidScrollToTop() {
-        let startOfTheCurrentYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: selectedDate))!
-        let startOfThePreviousYear = Calendar.current.date(byAdding: DateComponents(year: -1), to: startOfTheCurrentYear)!
-        
-        if startOfThePreviousYear < firstDate {
-            firstDate = startOfThePreviousYear
-        }
-        
-        updateEventSubscription()
-        eventsTableViewDataUpdatedSubject.send()
-    }
-    
-    func eventTableViewDidScrollToBottom() {
-        let startOfTheCurrentYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: selectedDate))!
-        let endOfTheNextYear = Calendar.current.date(byAdding: DateComponents(year: 2, day: -1), to: startOfTheCurrentYear)!
-        
-        if endOfTheNextYear > lastDate {
-            lastDate = endOfTheNextYear
-        }
-        
-        updateEventSubscription()
-        eventsTableViewDataUpdatedSubject.send()
-    }
-    
-    func getDate(for section: Int) -> Date {
-        let date: Date
-        
-        if showOnlyDaysWithEevents {
-            date = groupedEvents[section].0
-        } else {
-            date = Calendar.current.date(byAdding: .day, value: section, to: firstDate)!
-        }
-        
-        return date
-    }
-    
-    func getEvents(in section: Int) -> [EKEvent] {
-        if showOnlyDaysWithEevents {
-            let events = groupedEvents[section].1
-            
-            return events
-        } else {
-            let date = Calendar.current.date(byAdding: .day, value: section, to: firstDate)!
-            
-            if let events = groupedEvents.first(where: { Calendar.current.isDate($0.0, inSameDayAs: date) })?.1 {
-                return events
-            } else {
-                return []
-            }
-        }
-    }
-    
-    func getEvent(for indexPath: IndexPath) -> EKEvent {
-        let events = getEvents(in: indexPath.section)
-        
-        return events[indexPath.row]
-    }
-}
-
-extension Calendar {
-    func getDates(from startDate: Date, to endDate: Date) -> [Date] {
-        var dates = [Date]()
-        
-        dates.append(startDate)
-        enumerateDates(startingAfter: startDate, matching: .init(hour: 0, minute: 0, second: 0), matchingPolicy: .nextTime) { date, _, stop in
-            guard let date = date else { return }
-            
-            dates.append(date)
-            
-            if isDate(endDate, inSameDayAs: date) {
-                stop = true
-            }
-        }
-        
-        return dates
-    }
+//    // MARK: EventsTableView
+//    
+//    var eventsTableViewDataUpdatedSubject = PassthroughSubject<StagedChangeset<[EventsTableViewSection]>, Never>()
+//    
+//    var numberOfSectionsInEventsTableView: Int {
+//        if showOnlyDaysWithEevents {
+//            return eventsTableViewSections.count
+//        } else {
+//            return Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day!
+//        }
+//    }
+//    
+//    func eventsTableViewNumberOfRows(in section: Int) -> Int {
+//        return getEvents(in: section).count
+//    }
+//    
+//    func eventsTableViewCellSelectedAction(_ indexPath: IndexPath) {
+//        let event = getEvent(for: indexPath)
+//
+////        coordinator.showDetails(for: event)
+//    }
+//    
+//    func eventsTableViewTopHeaderDidChanged(to section: Int) {
+//        let date = getDate(for: section)
+//
+//        selectedDate = date
+//    }
+//    
+//    func eventsTableviewDidScrollToTop() {
+//        let startOfTheCurrentYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: selectedDate))!
+//        let startOfThePreviousYear = Calendar.current.date(byAdding: DateComponents(year: -1), to: startOfTheCurrentYear)!
+//        
+//        if startOfThePreviousYear < fromDate {
+//            fromDate = startOfThePreviousYear
+//        }
+//        
+//        updateEventSubscription()
+//    }
+//    
+//    func eventsTableViewDidScrollToBottom() {
+//        let startOfTheCurrentYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: selectedDate))!
+//        let endOfTheNextYear = Calendar.current.date(byAdding: DateComponents(year: 2, day: -1), to: startOfTheCurrentYear)!
+//        
+//        if endOfTheNextYear > toDate {
+//            toDate = endOfTheNextYear
+//        }
+//        
+//        updateEventSubscription()
+//    }
+//    
+//    // MARK: Utilities
+//    
+//    func getDate(for section: Int) -> Date {
+//        let date: Date
+//        
+//        if showOnlyDaysWithEevents {
+//            date = eventsTableViewSections[section].date
+//        } else {
+//            date = Calendar.current.date(byAdding: .day, value: section, to: fromDate)!
+//        }
+//        
+//        return date
+//    }
+//    
+//    func getEvents(in section: Int) -> [Event] {
+//        if showOnlyDaysWithEevents {
+//            let events = eventsTableViewSections[section].elements
+//            
+//            return events
+//        } else {
+//            let date = Calendar.current.date(byAdding: .day, value: section, to: fromDate)!
+//            
+//            if let events = eventsTableViewSections.first(where: { Calendar.current.isDate($0.date, inSameDayAs: date) })?.elements {
+//                return events
+//            } else {
+//                return []
+//            }
+//        }
+//    }
+//    
+//    func getEvent(for indexPath: IndexPath) -> Event {
+//        let events = getEvents(in: indexPath.section)
+//        
+//        return events[indexPath.row]
+//    }
 }

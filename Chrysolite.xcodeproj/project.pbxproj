@@ -22,15 +22,18 @@
 		D645B57B2AE44B8C00979BC4 /* MainFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D645B57A2AE44B8C00979BC4 /* MainFlowCoordinator.swift */; };
 		D645B57D2AE4506900979BC4 /* CalendarsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D645B57C2AE4506900979BC4 /* CalendarsListCoordinator.swift */; };
 		D645B57F2AE4FE3D00979BC4 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D645B57E2AE4FE3D00979BC4 /* CalendarView.swift */; };
-		D64AE62B2AE580130031FAD7 /* EventsTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE62A2AE580130031FAD7 /* EventsTableViewHeaderView.swift */; };
+		D64AE62B2AE580130031FAD7 /* EventsListTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE62A2AE580130031FAD7 /* EventsListTableViewHeaderView.swift */; };
 		D64AE62D2AE69F820031FAD7 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE62C2AE69F820031FAD7 /* UITableView+Extensions.swift */; };
 		D64AE62F2AE69FF00031FAD7 /* IdentifiableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE62E2AE69FF00031FAD7 /* IdentifiableView.swift */; };
-		D64AE6322AE6B3110031FAD7 /* EventsTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6312AE6B3110031FAD7 /* EventsTableViewData.swift */; };
+		D64AE6322AE6B3110031FAD7 /* EventsListTableViewHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6312AE6B3110031FAD7 /* EventsListTableViewHeaderModel.swift */; };
 		D64AE6372AE6C3D80031FAD7 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6362AE6C3D80031FAD7 /* UICollectionView+Extensions.swift */; };
 		D64AE6402AE844870031FAD7 /* EventDetailsTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE63F2AE844870031FAD7 /* EventDetailsTableViewCellModel.swift */; };
 		D64AE6422AE845350031FAD7 /* EventDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6412AE845350031FAD7 /* EventDetailsTableViewCell.swift */; };
 		D64AE6442AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6432AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift */; };
 		D64AE6462AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6452AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift */; };
+		D656BF6E2AF79A3100FFC028 /* EventsListTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF6D2AF79A3100FFC028 /* EventsListTableViewCellModel.swift */; };
+		D656BF702AF7D98600FFC028 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF6F2AF7D98600FFC028 /* Calendar+Extensions.swift */; };
+		D656BF722AF7D9DF00FFC028 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF712AF7D9DF00FFC028 /* EventsListView.swift */; };
 		D6692A992ADD15BC00CB2F30 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6692A982ADD15BC00CB2F30 /* EventManager.swift */; };
 		D675A63C2AED2868003E17F0 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D675A63B2AED2868003E17F0 /* TabBarRouter.swift */; };
 		D675A6402AED2BC8003E17F0 /* CalendarsListFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D675A63F2AED2BC8003E17F0 /* CalendarsListFlowCoordinator.swift */; };
@@ -47,6 +50,9 @@
 		D6903BC02AE29A69006B7DBA /* CalendarsTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6903BBF2AE29A69006B7DBA /* CalendarsTableViewCellModel.swift */; };
 		D6903BC82AE29F02006B7DBA /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6903BC72AE29F02006B7DBA /* UIFont+Extensions.swift */; };
 		D6903BCA2AE2A2F7006B7DBA /* CalendarDetailsTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6903BC92AE2A2F7006B7DBA /* CalendarDetailsTableViewCellModel.swift */; };
+		D6BD559D2AFB8A5E00DCB890 /* CalendarExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BD558D2AFB880900DCB890 /* CalendarExtensionsTests.swift */; };
+		D6E06D4D2AF0F87A00B3DE74 /* DifferenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */; };
+		D6E06D502AF1025500B3DE74 /* CalendarKit in Frameworks */ = {isa = PBXBuildFile; productRef = D6E06D4F2AF1025500B3DE74 /* CalendarKit */; };
 		D6F4C1FC2AD6EAF30034DC82 /* EventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FB2AD6EAF30034DC82 /* EventsTableViewCell.swift */; };
 		D6F4C1FE2AD6EF7B0034DC82 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FD2AD6EF7B0034DC82 /* EventDetailsViewController.swift */; };
 		D6F4C2012AD6F4C70034DC82 /* Chrysolite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FF2AD6F4C70034DC82 /* Chrysolite.xcdatamodeld */; };
@@ -59,6 +65,16 @@
 		D6F4C2222AD8499C0034DC82 /* EventCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C2212AD8499C0034DC82 /* EventCreationViewModel.swift */; };
 		D6F4C2242AD84E950034DC82 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C2232AD84E950034DC82 /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D6BD55982AFB8A5000DCB890 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D642B8442ACC6415008CDA26 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D642B84B2ACC6415008CDA26;
+			remoteInfo = Chrysolite;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D642B84C2ACC6415008CDA26 /* Chrysolite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chrysolite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,15 +94,18 @@
 		D645B57A2AE44B8C00979BC4 /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
 		D645B57C2AE4506900979BC4 /* CalendarsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsListCoordinator.swift; sourceTree = "<group>"; };
 		D645B57E2AE4FE3D00979BC4 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		D64AE62A2AE580130031FAD7 /* EventsTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewHeaderView.swift; sourceTree = "<group>"; };
+		D64AE62A2AE580130031FAD7 /* EventsListTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListTableViewHeaderView.swift; sourceTree = "<group>"; };
 		D64AE62C2AE69F820031FAD7 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		D64AE62E2AE69FF00031FAD7 /* IdentifiableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableView.swift; sourceTree = "<group>"; };
-		D64AE6312AE6B3110031FAD7 /* EventsTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewData.swift; sourceTree = "<group>"; };
+		D64AE6312AE6B3110031FAD7 /* EventsListTableViewHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListTableViewHeaderModel.swift; sourceTree = "<group>"; };
 		D64AE6362AE6C3D80031FAD7 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		D64AE63F2AE844870031FAD7 /* EventDetailsTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewCellModel.swift; sourceTree = "<group>"; };
 		D64AE6412AE845350031FAD7 /* EventDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		D64AE6432AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsTitleFieldTableViewCell.swift; sourceTree = "<group>"; };
 		D64AE6452AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsColorFieldTableViewCell.swift; sourceTree = "<group>"; };
+		D656BF6D2AF79A3100FFC028 /* EventsListTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListTableViewCellModel.swift; sourceTree = "<group>"; };
+		D656BF6F2AF7D98600FFC028 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
+		D656BF712AF7D9DF00FFC028 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
 		D6692A982ADD15BC00CB2F30 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		D675A63B2AED2868003E17F0 /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
 		D675A63E2AED28DF003E17F0 /* CalendarKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CalendarKit; path = ../CalendarKit; sourceTree = "<group>"; };
@@ -104,6 +123,8 @@
 		D6903BBF2AE29A69006B7DBA /* CalendarsTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsTableViewCellModel.swift; sourceTree = "<group>"; };
 		D6903BC72AE29F02006B7DBA /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		D6903BC92AE2A2F7006B7DBA /* CalendarDetailsTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsTableViewCellModel.swift; sourceTree = "<group>"; };
+		D6BD558D2AFB880900DCB890 /* CalendarExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarExtensionsTests.swift; sourceTree = "<group>"; };
+		D6BD55942AFB8A5000DCB890 /* ChrysoliteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChrysoliteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6F4C1FB2AD6EAF30034DC82 /* EventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewCell.swift; sourceTree = "<group>"; usesTabs = 0; };
 		D6F4C1FD2AD6EF7B0034DC82 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		D6F4C2002AD6F4C70034DC82 /* Chrysolite.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chrysolite.xcdatamodel; sourceTree = "<group>"; };
@@ -122,6 +143,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6E06D4D2AF0F87A00B3DE74 /* DifferenceKit in Frameworks */,
+				D6E06D502AF1025500B3DE74 /* CalendarKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6BD55912AFB8A5000DCB890 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				D642B84E2ACC6415008CDA26 /* Chrysolite */,
+				D6BD55952AFB8A5000DCB890 /* ChrysoliteTests */,
 				D675A63E2AED28DF003E17F0 /* CalendarKit */,
 				D642B84D2ACC6415008CDA26 /* Products */,
 			);
@@ -142,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				D642B84C2ACC6415008CDA26 /* Chrysolite.app */,
+				D6BD55942AFB8A5000DCB890 /* ChrysoliteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,14 +210,15 @@
 			path = Combine;
 			sourceTree = "<group>";
 		};
-		D64AE6302AE6B2F50031FAD7 /* EventsTableView */ = {
+		D64AE6302AE6B2F50031FAD7 /* EventsListTableView */ = {
 			isa = PBXGroup;
 			children = (
-				D64AE6312AE6B3110031FAD7 /* EventsTableViewData.swift */,
-				D64AE62A2AE580130031FAD7 /* EventsTableViewHeaderView.swift */,
+				D64AE6312AE6B3110031FAD7 /* EventsListTableViewHeaderModel.swift */,
+				D64AE62A2AE580130031FAD7 /* EventsListTableViewHeaderView.swift */,
+				D656BF6D2AF79A3100FFC028 /* EventsListTableViewCellModel.swift */,
 				D6F4C1FB2AD6EAF30034DC82 /* EventsTableViewCell.swift */,
 			);
-			path = EventsTableView;
+			path = EventsListTableView;
 			sourceTree = "<group>";
 		};
 		D64AE6382AE7C2740031FAD7 /* Managers */ = {
@@ -211,6 +244,15 @@
 			isa = PBXGroup;
 			children = (
 				D64AE62E2AE69FF00031FAD7 /* IdentifiableView.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		D656BF6C2AF799FF00FFC028 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D675A6492AED2E31003E17F0 /* MainFlowCoordinatorProtocol.swift */,
+				D675A6472AED2E05003E17F0 /* MainViewModelProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -252,6 +294,14 @@
 			path = "Calendar Details";
 			sourceTree = "<group>";
 		};
+		D6BD55952AFB8A5000DCB890 /* ChrysoliteTests */ = {
+			isa = PBXGroup;
+			children = (
+				D6BD558D2AFB880900DCB890 /* CalendarExtensionsTests.swift */,
+			);
+			path = ChrysoliteTests;
+			sourceTree = "<group>";
+		};
 		D6F4C21D2AD7CE080034DC82 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +320,7 @@
 				D6903BC72AE29F02006B7DBA /* UIFont+Extensions.swift */,
 				D6F4C21B2AD7C95E0034DC82 /* UIControl+Extensions.swift */,
 				D6F4C20A2AD71F950034DC82 /* Logger+Extensions.swift */,
+				D656BF6F2AF7D98600FFC028 /* Calendar+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -277,12 +328,12 @@
 		D6F4C21F2AD7CE660034DC82 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				D675A6492AED2E31003E17F0 /* MainFlowCoordinatorProtocol.swift */,
+				D656BF6C2AF799FF00FFC028 /* Protocols */,
 				D645B57A2AE44B8C00979BC4 /* MainFlowCoordinator.swift */,
-				D675A6472AED2E05003E17F0 /* MainViewModelProtocol.swift */,
 				D6F4C2232AD84E950034DC82 /* MainViewModel.swift */,
 				D642B8532ACC6415008CDA26 /* MainViewController.swift */,
-				D64AE6302AE6B2F50031FAD7 /* EventsTableView */,
+				D656BF712AF7D9DF00FFC028 /* EventsListView.swift */,
+				D64AE6302AE6B2F50031FAD7 /* EventsListTableView */,
 				D645B57E2AE4FE3D00979BC4 /* CalendarView.swift */,
 				D645B56B2AE4148A00979BC4 /* CustomPresentationController.swift */,
 			);
@@ -319,10 +370,30 @@
 			);
 			name = Chrysolite;
 			packageProductDependencies = (
+				D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */,
+				D6E06D4F2AF1025500B3DE74 /* CalendarKit */,
 			);
 			productName = Chrysolite;
 			productReference = D642B84C2ACC6415008CDA26 /* Chrysolite.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D6BD55932AFB8A5000DCB890 /* ChrysoliteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6BD559A2AFB8A5000DCB890 /* Build configuration list for PBXNativeTarget "ChrysoliteTests" */;
+			buildPhases = (
+				D6BD55902AFB8A5000DCB890 /* Sources */,
+				D6BD55912AFB8A5000DCB890 /* Frameworks */,
+				D6BD55922AFB8A5000DCB890 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D6BD55992AFB8A5000DCB890 /* PBXTargetDependency */,
+			);
+			name = ChrysoliteTests;
+			productName = ChrysoliteTests;
+			productReference = D6BD55942AFB8A5000DCB890 /* ChrysoliteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -338,6 +409,10 @@
 						CreatedOnToolsVersion = 15.0;
 						LastSwiftMigration = 1500;
 					};
+					D6BD55932AFB8A5000DCB890 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = D642B84B2ACC6415008CDA26;
+					};
 				};
 			};
 			buildConfigurationList = D642B8472ACC6415008CDA26 /* Build configuration list for PBXProject "Chrysolite" */;
@@ -350,12 +425,14 @@
 			);
 			mainGroup = D642B8432ACC6415008CDA26;
 			packageReferences = (
+				D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
 			);
 			productRefGroup = D642B84D2ACC6415008CDA26 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				D642B84B2ACC6415008CDA26 /* Chrysolite */,
+				D6BD55932AFB8A5000DCB890 /* ChrysoliteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -367,6 +444,13 @@
 			files = (
 				D642B85C2ACC6416008CDA26 /* LaunchScreen.storyboard in Resources */,
 				D642B8592ACC6416008CDA26 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6BD55922AFB8A5000DCB890 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,10 +486,11 @@
 				D6903BB42AE15422006B7DBA /* CalendarsViewController.swift in Sources */,
 				D6F4C2242AD84E950034DC82 /* MainViewModel.swift in Sources */,
 				D642B8542ACC6415008CDA26 /* MainViewController.swift in Sources */,
-				D64AE62B2AE580130031FAD7 /* EventsTableViewHeaderView.swift in Sources */,
+				D64AE62B2AE580130031FAD7 /* EventsListTableViewHeaderView.swift in Sources */,
 				D645B56E2AE4194200979BC4 /* CalendarManager.swift in Sources */,
 				D6903BBA2AE2997F006B7DBA /* CalendarDetailsViewController.swift in Sources */,
 				D645B5742AE41DB000979BC4 /* EKEventStore+Extensions.swift in Sources */,
+				D656BF6E2AF79A3100FFC028 /* EventsListTableViewCellModel.swift in Sources */,
 				D675A6422AED2BF9003E17F0 /* CalendarsViewModelProtocol.swift in Sources */,
 				D64AE6462AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift in Sources */,
 				D675A6482AED2E05003E17F0 /* MainViewModelProtocol.swift in Sources */,
@@ -421,7 +506,7 @@
 				D64AE6442AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift in Sources */,
 				D6F4C2012AD6F4C70034DC82 /* Chrysolite.xcdatamodeld in Sources */,
 				D645B57B2AE44B8C00979BC4 /* MainFlowCoordinator.swift in Sources */,
-				D64AE6322AE6B3110031FAD7 /* EventsTableViewData.swift in Sources */,
+				D64AE6322AE6B3110031FAD7 /* EventsListTableViewHeaderModel.swift in Sources */,
 				D645B57F2AE4FE3D00979BC4 /* CalendarView.swift in Sources */,
 				D675A6462AED2CFB003E17F0 /* EventDetailsViewModelProtocol.swift in Sources */,
 				D6F4C1FC2AD6EAF30034DC82 /* EventsTableViewCell.swift in Sources */,
@@ -429,7 +514,9 @@
 				D675A64A2AED2E31003E17F0 /* MainFlowCoordinatorProtocol.swift in Sources */,
 				D675A6442AED2CCC003E17F0 /* CalendarDetailsViewModelProtocol.swift in Sources */,
 				D6F4C20B2AD71F950034DC82 /* Logger+Extensions.swift in Sources */,
+				D656BF722AF7D9DF00FFC028 /* EventsListView.swift in Sources */,
 				D6F4C21C2AD7C95E0034DC82 /* UIControl+Extensions.swift in Sources */,
+				D656BF702AF7D98600FFC028 /* Calendar+Extensions.swift in Sources */,
 				D6F4C2162AD7C43B0034DC82 /* UIControlPublisher.swift in Sources */,
 				D64AE62F2AE69FF00031FAD7 /* IdentifiableView.swift in Sources */,
 				D6903BBC2AE299FE006B7DBA /* CalendarDetailsViewModel.swift in Sources */,
@@ -451,7 +538,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D6BD55902AFB8A5000DCB890 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6BD559D2AFB8A5E00DCB890 /* CalendarExtensionsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D6BD55992AFB8A5000DCB890 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D642B84B2ACC6415008CDA26 /* Chrysolite */;
+			targetProxy = D6BD55982AFB8A5000DCB890 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D642B85A2ACC6416008CDA26 /* LaunchScreen.storyboard */ = {
@@ -524,6 +627,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -580,6 +684,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -615,6 +720,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objc;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -652,8 +758,47 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D6BD559B2AFB8A5000DCB890 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6797TRSMCN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillupkhov2004.ChrysoliteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chrysolite.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Chrysolite";
+			};
+			name = Debug;
+		};
+		D6BD559C2AFB8A5000DCB890 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6797TRSMCN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillupkhov2004.ChrysoliteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chrysolite.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Chrysolite";
 			};
 			name = Release;
 		};
@@ -678,7 +823,39 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D6BD559A2AFB8A5000DCB890 /* Build configuration list for PBXNativeTarget "ChrysoliteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6BD559B2AFB8A5000DCB890 /* Debug */,
+				D6BD559C2AFB8A5000DCB890 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ra1028/DifferenceKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */;
+			productName = DifferenceKit;
+		};
+		D6E06D4F2AF1025500B3DE74 /* CalendarKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CalendarKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D6F4C1FF2AD6F4C70034DC82 /* Chrysolite.xcdatamodeld */ = {
