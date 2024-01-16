@@ -1,0 +1,8 @@
+only_rules:
+  - colon
+  - comma  
+
+colon:
+  apply_to_dictionaries: false
+
+indentation: 2
