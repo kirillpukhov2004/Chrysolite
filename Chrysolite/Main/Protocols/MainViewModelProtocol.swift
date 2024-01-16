@@ -1,7 +1,6 @@
 import UIKit
 import Combine
 import DifferenceKit
-import CalendarKit
 
 protocol MainViewModelProtocol: AnyObject {
     var eventManager: EventManager { get }

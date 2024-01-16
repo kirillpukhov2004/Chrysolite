@@ -3,7 +3,6 @@ import EventKit
 import Combine
 import DifferenceKit
 import OSLog
-import CalendarKit
 
 class MainViewModel: MainViewModelProtocol {
     let coordinator: MainFlowCoordinatorProtocol

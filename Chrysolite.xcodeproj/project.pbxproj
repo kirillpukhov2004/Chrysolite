@@ -31,6 +31,9 @@
 		D64AE6422AE845350031FAD7 /* EventDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6412AE845350031FAD7 /* EventDetailsTableViewCell.swift */; };
 		D64AE6442AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6432AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift */; };
 		D64AE6462AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64AE6452AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift */; };
+		D65442412B56600D002F8E9A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D654423F2B565F84002F8E9A /* Event.swift */; };
+		D65442422B566010002F8E9A /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65442402B565F84002F8E9A /* Calendar.swift */; };
+		D65442452B5666C8002F8E9A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D65442442B5666C8002F8E9A /* SnapKit */; };
 		D656BF6E2AF79A3100FFC028 /* EventsListTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF6D2AF79A3100FFC028 /* EventsListTableViewCellModel.swift */; };
 		D656BF702AF7D98600FFC028 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF6F2AF7D98600FFC028 /* Calendar+Extensions.swift */; };
 		D656BF722AF7D9DF00FFC028 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656BF712AF7D9DF00FFC028 /* EventsListView.swift */; };
@@ -52,7 +55,6 @@
 		D6903BCA2AE2A2F7006B7DBA /* CalendarDetailsTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6903BC92AE2A2F7006B7DBA /* CalendarDetailsTableViewCellModel.swift */; };
 		D6BD559D2AFB8A5E00DCB890 /* CalendarExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BD558D2AFB880900DCB890 /* CalendarExtensionsTests.swift */; };
 		D6E06D4D2AF0F87A00B3DE74 /* DifferenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */; };
-		D6E06D502AF1025500B3DE74 /* CalendarKit in Frameworks */ = {isa = PBXBuildFile; productRef = D6E06D4F2AF1025500B3DE74 /* CalendarKit */; };
 		D6F4C1FC2AD6EAF30034DC82 /* EventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FB2AD6EAF30034DC82 /* EventsTableViewCell.swift */; };
 		D6F4C1FE2AD6EF7B0034DC82 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FD2AD6EF7B0034DC82 /* EventDetailsViewController.swift */; };
 		D6F4C2012AD6F4C70034DC82 /* Chrysolite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D6F4C1FF2AD6F4C70034DC82 /* Chrysolite.xcdatamodeld */; };
@@ -103,12 +105,13 @@
 		D64AE6412AE845350031FAD7 /* EventDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		D64AE6432AE846080031FAD7 /* CalendarDetailsTitleFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsTitleFieldTableViewCell.swift; sourceTree = "<group>"; };
 		D64AE6452AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsColorFieldTableViewCell.swift; sourceTree = "<group>"; };
+		D654423F2B565F84002F8E9A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		D65442402B565F84002F8E9A /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		D656BF6D2AF79A3100FFC028 /* EventsListTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListTableViewCellModel.swift; sourceTree = "<group>"; };
 		D656BF6F2AF7D98600FFC028 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		D656BF712AF7D9DF00FFC028 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
 		D6692A982ADD15BC00CB2F30 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		D675A63B2AED2868003E17F0 /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
-		D675A63E2AED28DF003E17F0 /* CalendarKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CalendarKit; path = ../CalendarKit; sourceTree = "<group>"; };
 		D675A63F2AED2BC8003E17F0 /* CalendarsListFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsListFlowCoordinator.swift; sourceTree = "<group>"; };
 		D675A6412AED2BF9003E17F0 /* CalendarsViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsViewModelProtocol.swift; sourceTree = "<group>"; };
 		D675A6432AED2CCC003E17F0 /* CalendarDetailsViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailsViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -144,7 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6E06D4D2AF0F87A00B3DE74 /* DifferenceKit in Frameworks */,
-				D6E06D502AF1025500B3DE74 /* CalendarKit in Frameworks */,
+				D65442452B5666C8002F8E9A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +166,6 @@
 			children = (
 				D642B84E2ACC6415008CDA26 /* Chrysolite */,
 				D6BD55952AFB8A5000DCB890 /* ChrysoliteTests */,
-				D675A63E2AED28DF003E17F0 /* CalendarKit */,
 				D642B84D2ACC6415008CDA26 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -184,11 +186,11 @@
 				D642B84F2ACC6415008CDA26 /* AppDelegate.swift */,
 				D642B8512ACC6415008CDA26 /* SceneDelegate.swift */,
 				D6F4C21F2AD7CE660034DC82 /* Main */,
+				D65442482B566AAF002F8E9A /* Models */,
 				D6903BC12AE29A7F006B7DBA /* Calnedars List */,
 				D6903BC22AE29A9B006B7DBA /* Calendar Details */,
 				D6F4C2202AD7CE7E0034DC82 /* Event Details */,
 				D645B5752AE41FE700979BC4 /* Combine */,
-				D64AE63B2AE7C2890031FAD7 /* Services */,
 				D64AE6382AE7C2740031FAD7 /* Managers */,
 				D6F4C21D2AD7CE080034DC82 /* CoreData */,
 				D64AE63E2AE7C2B20031FAD7 /* Protocols */,
@@ -233,19 +235,21 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		D64AE63B2AE7C2890031FAD7 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		D64AE63E2AE7C2B20031FAD7 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				D64AE62E2AE69FF00031FAD7 /* IdentifiableView.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		D65442482B566AAF002F8E9A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D654423F2B565F84002F8E9A /* Event.swift */,
+				D65442402B565F84002F8E9A /* Calendar.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D656BF6C2AF799FF00FFC028 /* Protocols */ = {
@@ -371,7 +375,7 @@
 			name = Chrysolite;
 			packageProductDependencies = (
 				D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */,
-				D6E06D4F2AF1025500B3DE74 /* CalendarKit */,
+				D65442442B5666C8002F8E9A /* SnapKit */,
 			);
 			productName = Chrysolite;
 			productReference = D642B84C2ACC6415008CDA26 /* Chrysolite.app */;
@@ -426,6 +430,7 @@
 			mainGroup = D642B8432ACC6415008CDA26;
 			packageReferences = (
 				D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
+				D65442432B5666C8002F8E9A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = D642B84D2ACC6415008CDA26 /* Products */;
 			projectDirPath = "";
@@ -493,6 +498,7 @@
 				D656BF6E2AF79A3100FFC028 /* EventsListTableViewCellModel.swift in Sources */,
 				D675A6422AED2BF9003E17F0 /* CalendarsViewModelProtocol.swift in Sources */,
 				D64AE6462AE8462B0031FAD7 /* CalendarDetailsColorFieldTableViewCell.swift in Sources */,
+				D65442412B56600D002F8E9A /* Event.swift in Sources */,
 				D675A6482AED2E05003E17F0 /* MainViewModelProtocol.swift in Sources */,
 				D64AE6402AE844870031FAD7 /* EventDetailsTableViewCellModel.swift in Sources */,
 				D642B8502ACC6415008CDA26 /* AppDelegate.swift in Sources */,
@@ -533,6 +539,7 @@
 				D6F4C2182AD7C45D0034DC82 /* UIControlSubscription.swift in Sources */,
 				D64AE62D2AE69F820031FAD7 /* UITableView+Extensions.swift in Sources */,
 				D6F4C1FE2AD6EF7B0034DC82 /* EventDetailsViewController.swift in Sources */,
+				D65442422B566010002F8E9A /* Calendar.swift in Sources */,
 				D6903BC82AE29F02006B7DBA /* UIFont+Extensions.swift in Sources */,
 				D6F4C21A2AD7C9460034DC82 /* CombineCompatible.swift in Sources */,
 			);
@@ -835,6 +842,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D65442432B5666C8002F8E9A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
 		D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -846,14 +861,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D65442442B5666C8002F8E9A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D65442432B5666C8002F8E9A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		D6E06D4C2AF0F87A00B3DE74 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D6E06D4B2AF0F87A00B3DE74 /* XCRemoteSwiftPackageReference "DifferenceKit" */;
 			productName = DifferenceKit;
-		};
-		D6E06D4F2AF1025500B3DE74 /* CalendarKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CalendarKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

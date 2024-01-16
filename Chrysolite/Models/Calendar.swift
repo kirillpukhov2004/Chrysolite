@@ -1,12 +1,14 @@
 import EventKit
 
-struct CKCalendar {
+struct Calendar {
     let identifier: String
     let title: String
     let color: CGColor
     let type: EKCalendarType
-    
-    init(_ calendar: EKCalendar) {
+}
+
+extension Calendar {
+    init(ekCalendar calendar: EKCalendar) {
         identifier = calendar.calendarIdentifier
         title = calendar.title
         color = calendar.cgColor

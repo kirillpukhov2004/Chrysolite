@@ -2,7 +2,6 @@ import OSLog
 import UIKit
 import Combine
 import DifferenceKit
-import CalendarKit
 
 extension Date: Differentiable {}
 
@@ -42,25 +41,8 @@ class EventsListView: UIView {
 
         self.eventManager = eventManager
 
-        tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(EventsListTableViewCell.self)
-        tableView.register(EventsListTableViewHeaderView.self)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .none
-        if #available(iOS 15.0, *) {
-            tableView.sectionHeaderTopPadding = 11
-        }
-        addSubview(tableView)
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tableView.leftAnchor.constraint(equalTo: leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: rightAnchor),
-            tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        setupSubviews()
+        setupLayoutConstraints()
 
         startDate = calendar.date(byAdding: .month, value: -1, to: calendar.startOfMonth(for: topDate)!)!
         endDate = calendar.date(byAdding: .month, value: 1, to: calendar.endOfMonth(for: topDate)!)!
@@ -73,6 +55,30 @@ class EventsListView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupSubviews() {
+        tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(EventsListTableViewCell.self)
+        tableView.register(EventsListTableViewHeaderView.self)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 11
+        }
+        addSubview(tableView)
+    }
+
+    private func setupLayoutConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.leftAnchor.constraint(equalTo: leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: rightAnchor),
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
 
     private enum Constants {
@@ -165,19 +171,6 @@ extension EventsListView: UITableViewDelegate {
             }
         }
     }
-
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        print(velocity)
-//
-//        let verticalVelocity: CGFloat
-//        if velocity.y > 0 {
-//            verticalVelocity = min(velocity.y, 1.75)
-//        } else {
-//            verticalVelocity = max(velocity.y, -1.75)
-//        }
-//
-//        targetContentOffset.pointee.y += verticalVelocity * 700
-    }
 }
 
 extension EventsListView {
@@ -196,12 +189,6 @@ extension EventsListView {
         tableView.reload(using: stagedChanges, with: .automatic) { self.tableViewSections = $0 }
 
         UIView.setAnimationsEnabled(true)
-
-//        eventSubscription?.cancel()
-//        eventSubscription = eventManager.eventPublisher(from: startDate, to: endDate)
-//            .sink { [unowned self] ekEvents in
-
-//            }
     }
 
     private func performUpdates(_ updatesClosure: () -> Void) {
